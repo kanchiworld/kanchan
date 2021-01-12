@@ -3,7 +3,7 @@ http://www.kanchiworld.com
 
 What is Kanchan?
 -------------
-Kanchan is digital currency created as a gift to Kanchan, AKA Kanchi, AKA stuti by her dad
+Kanchan is digital currency created as a gift to Kanchan, AKA Kanchi, AKA Stuti by her dad
 Gautam Tripathi. Kanchan also means "gold" in Sanskrit, a fitting name for a digital asset that
 will eventually replace physical gold as a store of value. Kanchan enables instant, private
 payments to anyone, anywhere in the world. Kanchan uses peer-to-peer technology
