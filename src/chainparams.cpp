@@ -339,7 +339,7 @@ public:
 
 // Gautam        genesis = CreateGenesisBlock(1390095618, 28917698, 0x1e0ffff0, 1, 50 * COIN);
         genesis = CreateGenesisBlock(1191622160, 30020, 0x1e0ffff0, 1, 50 * COIN);
-        std::cout << "\nGautam says Genesis block: " << genesis.ToString() << std::endl;
+//        std::cout << "\nGautam:  Genesis block: " << genesis.ToString() << std::endl;
         consensus.hashGenesisBlock = genesis.GetHash();
 
 

@@ -108,7 +108,7 @@ bool fLiteMode = false;
 int nWalletBackups = 10;
 
 const char * const BITCOIN_CONF_FILENAME = "kanchan.conf";
-const char * const BITCOIN_PID_FILENAME = "dashd.pid";
+const char * const BITCOIN_PID_FILENAME = "kanchand.pid";
 
 ArgsManager gArgs;
 bool fPrintToConsole = false;
@@ -288,7 +288,7 @@ bool GetLogCategory(uint64_t *f, const std::string *str)
             *f = BCLog::ALL;
             return true;
         }
-        if (*str == "dash") {
+        if (*str == "kanchan") {
             *f = BCLog::CHAINLOCKS
                 | BCLog::GOBJECT
                 | BCLog::INSTANTSEND

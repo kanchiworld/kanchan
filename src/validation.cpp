@@ -1027,15 +1027,17 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     {
         // Early ages...
         // 1111/((x+1)^2)
+        // Gautam: changed to 2000 from 500
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
-        if(nSubsidyBase > 500) nSubsidyBase = 500;
+        if(nSubsidyBase > 2000) nSubsidyBase = 2000;
         else if(nSubsidyBase < 1) nSubsidyBase = 1;
     } else if (nPrevHeight < 17000 || (dDiff <= 75 && nPrevHeight < 24000))
     {
         // CPU mining era
         // 11111/(((x+51)/6)^2)
+        // Gautam: changed to 1000 from 500
         nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
-        if(nSubsidyBase > 500) nSubsidyBase = 500;
+        if(nSubsidyBase > 1000) nSubsidyBase = 1000;
         else if(nSubsidyBase < 25) nSubsidyBase = 25;
     } else
     {
@@ -1708,7 +1710,7 @@ static bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, 
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("dash-scriptch");
+    RenameThread("kanchan-scriptch");
     scriptcheckqueue.Thread();
 }
 
