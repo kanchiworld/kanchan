@@ -10,12 +10,14 @@
 #include "tinyformat.h"
 #include "utilstrencodings.h"
 #include "crypto/common.h"
+#include "util.h"
 
 uint256 CBlockHeader::GetHash() const
 {
     std::vector<unsigned char> vch(80);
     CVectorWriter ss(SER_NETWORK, PROTOCOL_VERSION, vch, 0);
     ss << *this;
+    //LogPrintf("CBlockHeader::GetHash() entered\n");
     return HashX11((const char *)vch.data(), (const char *)vch.data() + vch.size());
 }
 

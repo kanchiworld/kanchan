@@ -35,7 +35,8 @@ public:
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action) {
+    inline void SerializationOp(Stream& s, Operation ser_action)
+    {
         READWRITE(hash);
         READWRITE(n);
     }
@@ -158,7 +159,8 @@ public:
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action) {
+    inline void SerializationOp(Stream& s, Operation ser_action)
+    {
         READWRITE(nValue);
         READWRITE(scriptPubKey);
     }
@@ -234,14 +236,14 @@ public:
     CTransaction(CMutableTransaction &&tx);
 
     template <typename Stream>
-    inline void Serialize(Stream& s) const {
+    inline void Serialize(Stream& s) const
+    {
         int32_t n32bitVersion = this->nVersion | (this->nType << 16);
         s << n32bitVersion;
         s << vin;
         s << vout;
         s << nLockTime;
-        if (this->nVersion == 3 && this->nType != TRANSACTION_NORMAL)
-            s << vExtraPayload;
+        if (this->nVersion == 3 && this->nType != TRANSACTION_NORMAL) s << vExtraPayload;
     }
 
     /** This deserializing constructor is provided instead of an Unserialize method.
@@ -249,13 +251,12 @@ public:
     template <typename Stream>
     CTransaction(deserialize_type, Stream& s) : CTransaction(CMutableTransaction(deserialize, s)) {}
 
-    bool IsNull() const {
+    bool IsNull() const
+    {
         return vin.empty() && vout.empty();
     }
 
-    const uint256& GetHash() const {
-        return hash;
-    }
+    const uint256& GetHash() const { return hash; }
 
     // Return sum of txouts.
     CAmount GetValueOut() const;

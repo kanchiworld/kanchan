@@ -105,10 +105,12 @@ public:
         return a.vch[0] == b.vch[0] &&
                memcmp(a.vch, b.vch, a.size()) == 0;
     }
+
     friend bool operator!=(const CPubKey& a, const CPubKey& b)
     {
         return !(a == b);
     }
+
     friend bool operator<(const CPubKey& a, const CPubKey& b)
     {
         return a.vch[0] < b.vch[0] ||
@@ -123,6 +125,7 @@ public:
         ::WriteCompactSize(s, len);
         s.write((char*)vch, len);
     }
+
     template <typename Stream>
     void Unserialize(Stream& s)
     {
@@ -190,7 +193,8 @@ public:
     bool Derive(CPubKey& pubkeyChild, ChainCode &ccChild, unsigned int nChild, const ChainCode& cc) const;
 };
 
-struct CExtPubKey {
+struct CExtPubKey
+{
     unsigned char nDepth;
     unsigned char vchFingerprint[4];
     unsigned int nChild;
@@ -215,6 +219,7 @@ struct CExtPubKey {
         // Optimized implementation for ::GetSerializeSize that avoids copying.
         s.seek(BIP32_EXTKEY_SIZE + 1); // add one byte for the size (compact int)
     }
+
     template <typename Stream>
     void Serialize(Stream& s) const
     {
@@ -224,6 +229,7 @@ struct CExtPubKey {
         Encode(code);
         s.write((const char *)&code[0], len);
     }
+
     template <typename Stream>
     void Unserialize(Stream& s)
     {

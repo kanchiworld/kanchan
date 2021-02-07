@@ -63,7 +63,8 @@ public:
 
     std::string banReasonToString()
     {
-        switch (banReason) {
+        switch (banReason)
+        {
         case BanReasonNodeMisbehaving:
             return "node misbehaving";
         case BanReasonManuallyAdded:

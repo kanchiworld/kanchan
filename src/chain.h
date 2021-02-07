@@ -258,18 +258,22 @@ public:
         nNonce         = block.nNonce;
     }
 
-    CDiskBlockPos GetBlockPos() const {
+    CDiskBlockPos GetBlockPos() const
+    {
         CDiskBlockPos ret;
-        if (nStatus & BLOCK_HAVE_DATA) {
+        if (nStatus & BLOCK_HAVE_DATA)
+        {
             ret.nFile = nFile;
             ret.nPos  = nDataPos;
         }
         return ret;
     }
 
-    CDiskBlockPos GetUndoPos() const {
+    CDiskBlockPos GetUndoPos() const
+    {
         CDiskBlockPos ret;
-        if (nStatus & BLOCK_HAVE_UNDO) {
+        if (nStatus & BLOCK_HAVE_UNDO)
+        {
             ret.nFile = nFile;
             ret.nPos  = nUndoPos;
         }

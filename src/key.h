@@ -72,13 +72,16 @@ public:
     template <typename T>
     void Set(const T pbegin, const T pend, bool fCompressedIn)
     {
-        if (size_t(pend - pbegin) != keydata.size()) {
+        if (size_t(pend - pbegin) != keydata.size())
+        {
             fValid = false;
-        } else if (Check(&pbegin[0])) {
+        } else if (Check(&pbegin[0]))
+        {
             memcpy(keydata.data(), (unsigned char*)&pbegin[0], keydata.size());
             fValid = true;
             fCompressed = fCompressedIn;
-        } else {
+        } else
+        {
             fValid = false;
         }
     }
@@ -137,7 +140,8 @@ public:
     bool Load(CPrivKey& privkey, CPubKey& vchPubKey, bool fSkipCheck);
 };
 
-struct CExtKey {
+struct CExtKey
+{
     unsigned char nDepth;
     unsigned char vchFingerprint[4];
     unsigned int nChild;

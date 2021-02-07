@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2014-2019 The Dash Core developers
+// Copyright (c) 2014-2019 The Kanchan Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -36,8 +36,7 @@
 #include <utility>
 #include <vector>
 
-typedef CWallet* CWalletRef;
-extern std::vector<CWalletRef> vpwallets;
+extern std::vector<CWallet*> vpwallets;
 
 /**
  * Settings
@@ -525,7 +524,8 @@ struct WalletTxHasher
     }
 };
 
-class CInputCoin {
+class CInputCoin
+{
 public:
     CInputCoin(const CWalletTx* walletTx, unsigned int i)
     {
@@ -541,15 +541,18 @@ public:
     COutPoint outpoint;
     CTxOut txout;
 
-    bool operator<(const CInputCoin& rhs) const {
+    bool operator<(const CInputCoin& rhs) const
+    {
         return outpoint < rhs.outpoint;
     }
 
-    bool operator!=(const CInputCoin& rhs) const {
+    bool operator!=(const CInputCoin& rhs) const
+    {
         return outpoint != rhs.outpoint;
     }
 
-    bool operator==(const CInputCoin& rhs) const {
+    bool operator==(const CInputCoin& rhs) const
+    {
         return outpoint == rhs.outpoint;
     }
 };
@@ -916,7 +919,7 @@ public:
 
     bool SelectCoinsGroupedByAddresses(std::vector<CompactTallyItem>& vecTallyRet, bool fSkipDenominated = true, bool fAnonymizable = true, bool fSkipUnconfirmed = true, int nMaxOupointsPerAddress = -1) const;
 
-    /// Get 1000DASH output and keys which can be used for the Masternode
+    /// Get 1000 KANCHAN  output and keys which can be used for the Masternode
     bool GetMasternodeOutpointAndKeys(COutPoint& outpointRet, CPubKey& pubKeyRet, CKey& keyRet, const std::string& strTxHash = "", const std::string& strOutputIndex = "");
     /// Extract txin information and keys from output
     bool GetOutpointAndKeysFromOutput(const COutput& out, COutPoint& outpointRet, CPubKey& pubKeyRet, CKey& keyRet);
@@ -1099,8 +1102,8 @@ public:
     void MarkReserveKeysAsUsed(int64_t keypool_id);
     const std::map<CKeyID, int64_t>& GetAllReserveKeys() const { return m_pool_key_to_index; }
 
-    std::set< std::set<CTxDestination> > GetAddressGroupings();
-    std::map<CTxDestination, CAmount> GetAddressBalances();
+    void GetAddressGroupings(std::set< std::set<CTxDestination>* >& );
+    void GetAddressBalances(std::map<CTxDestination, CAmount>& );
 
     std::set<CTxDestination> GetAccountAddresses(const std::string& strAccount) const;
 

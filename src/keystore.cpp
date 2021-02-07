@@ -9,17 +9,20 @@
 #include "pubkey.h"
 #include "util.h"
 
-bool CKeyStore::AddKey(const CKey &key) {
+bool CKeyStore::AddKey(const CKey &key)
+{
     return AddKeyPubKey(key, key.GetPubKey());
 }
 
 bool CBasicKeyStore::GetPubKey(const CKeyID &address, CPubKey &vchPubKeyOut) const
 {
     CKey key;
-    if (!GetKey(address, key)) {
+    if (!GetKey(address, key))
+    {
         LOCK(cs_KeyStore);
         WatchKeyMap::const_iterator it = mapWatchKeys.find(address);
-        if (it != mapWatchKeys.end()) {
+        if (it != mapWatchKeys.end())
+        {
             vchPubKeyOut = it->second;
             return true;
         }
@@ -32,7 +35,7 @@ bool CBasicKeyStore::GetPubKey(const CKeyID &address, CPubKey &vchPubKeyOut) con
 bool CBasicKeyStore::AddKeyPubKey(const CKey& key, const CPubKey &pubkey)
 {
     LOCK(cs_KeyStore);
-    mapKeys[pubkey.GetID()] = key;
+    m_mapKeys[pubkey.GetID()] = key;
     return true;
 }
 

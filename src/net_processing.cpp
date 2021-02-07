@@ -1086,7 +1086,7 @@ bool static AlreadyHave(const CInv& inv) EXCLUSIVE_LOCKS_REQUIRED(cs_main)
         return mapBlockIndex.count(inv.hash);
 
     /*
-        Dash Related Inventory Messages
+        Kanchan Related Inventory Messages
 
         --
 
@@ -1138,11 +1138,15 @@ static void RelayAddress(const CAddress& addr, bool fReachable, CConnman* connma
     std::array<std::pair<uint64_t, CNode*>,2> best{{{0, nullptr}, {0, nullptr}}};
     assert(nRelayNodes <= best.size());
 
-    auto sortfunc = [&best, &hasher, nRelayNodes](CNode* pnode) {
-        if (pnode->nVersion >= CADDR_TIME_VERSION) {
+    auto sortfunc = [&best, &hasher, nRelayNodes](CNode* pnode)
+    {
+        if (pnode->nVersion >= CADDR_TIME_VERSION)
+        {
             uint64_t hashKey = CSipHasher(hasher).Write(pnode->GetId()).Finalize();
-            for (unsigned int i = 0; i < nRelayNodes; i++) {
-                if (hashKey > best[i].first) {
+            for (unsigned int i = 0; i < nRelayNodes; i++)
+            {
+                if (hashKey > best[i].first)
+                {
                     std::copy(best.begin() + i, best.begin() + nRelayNodes - 1, best.begin() + i + 1);
                     best[i] = std::make_pair(hashKey, pnode);
                     break;
@@ -1151,8 +1155,10 @@ static void RelayAddress(const CAddress& addr, bool fReachable, CConnman* connma
         }
     };
 
-    auto pushfunc = [&addr, &best, nRelayNodes, &insecure_rand] {
-        for (unsigned int i = 0; i < nRelayNodes && best[i].first != 0; i++) {
+    auto pushfunc = [&addr, &best, nRelayNodes, &insecure_rand]
+    {
+        for (unsigned int i = 0; i < nRelayNodes && best[i].first != 0; i++)
+        {
             best[i].second->PushAddress(addr, insecure_rand);
         }
     };
@@ -1178,7 +1184,8 @@ void static ProcessGetBlockData(CNode* pfrom, const Consensus::Params& consensus
         if (mi != mapBlockIndex.end())
         {
             if (mi->second->nChainTx && !mi->second->IsValid(BLOCK_VALID_SCRIPTS) &&
-                    mi->second->IsValid(BLOCK_VALID_TREE)) {
+                    mi->second->IsValid(BLOCK_VALID_TREE))
+           {
                 // If we have the block and all of its parents, but have not yet validated it,
                 // we might be in the middle of connecting it (ie in the unlock of cs_main
                 // before ActivateBestChain but after AcceptBlock).
@@ -1502,8 +1509,8 @@ bool static ProcessHeadersMessage(CNode *pfrom, CConnman *connman, const std::ve
 
     bool received_new_header = false;
     const CBlockIndex *pindexLast = nullptr;
-    {
-        LOCK(cs_main);
+
+    { LOCK(cs_main);
         CNodeState *nodestate = State(pfrom->GetId());
 
         // If this looks like it could be a block announcement (nCount <
@@ -1534,8 +1541,10 @@ bool static ProcessHeadersMessage(CNode *pfrom, CConnman *connman, const std::ve
         }
 
         uint256 hashLastBlock;
-        for (const CBlockHeader& header : headers) {
-            if (!hashLastBlock.IsNull() && header.hashPrevBlock != hashLastBlock) {
+        for (const CBlockHeader& header : headers)
+        {
+            if (!hashLastBlock.IsNull() && header.hashPrevBlock != hashLastBlock)
+            {
                 Misbehaving(pfrom->GetId(), 20);
                 return error("non-continuous headers sequence");
             }
@@ -1544,21 +1553,26 @@ bool static ProcessHeadersMessage(CNode *pfrom, CConnman *connman, const std::ve
 
         // If we don't have the last header, then they'll have given us
         // something new (if these headers are valid).
-        if (mapBlockIndex.find(hashLastBlock) == mapBlockIndex.end()) {
+        if (mapBlockIndex.find(hashLastBlock) == mapBlockIndex.end())
+        {
             received_new_header = true;
         }
     }
 
     CValidationState state;
     CBlockHeader first_invalid_header;
-    if (!ProcessNewBlockHeaders(headers, state, chainparams, &pindexLast, &first_invalid_header)) {
+    if (!ProcessNewBlockHeaders(headers, state, chainparams, &pindexLast, &first_invalid_header))
+    {
         int nDoS;
-        if (state.IsInvalid(nDoS)) {
+        if (state.IsInvalid(nDoS))
+        {
             LOCK(cs_main);
-            if (nDoS > 0) {
+            if (nDoS > 0)
+            {
                 Misbehaving(pfrom->GetId(), nDoS);
             }
-            if (punish_duplicate_invalid && mapBlockIndex.find(first_invalid_header.GetHash()) != mapBlockIndex.end()) {
+            if (punish_duplicate_invalid && mapBlockIndex.find(first_invalid_header.GetHash()) != mapBlockIndex.end())
+            {
                 // Goal: don't allow outbound peers to use up our outbound
                 // connection slots if they are on incompatible chains.
                 //
@@ -2681,10 +2695,13 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
 
         const CBlockIndex *pindex = nullptr;
         CValidationState state;
-        if (!ProcessNewBlockHeaders({cmpctblock.header}, state, chainparams, &pindex)) {
+        if (!ProcessNewBlockHeaders({cmpctblock.header}, state, chainparams, &pindex))
+        {
             int nDoS;
-            if (state.IsInvalid(nDoS)) {
-                if (nDoS > 0) {
+            if (state.IsInvalid(nDoS))
+            {
+                if (nDoS > 0)
+                {
                     LOCK(cs_main);
                     Misbehaving(pfrom->GetId(), nDoS);
                 }

@@ -12,7 +12,8 @@
 # include <arpa/inet.h>
 #endif
 
-namespace NetMsgType {
+namespace NetMsgType
+{
 const char *VERSION="version";
 const char *VERACK="verack";
 const char *ADDR="addr";
@@ -38,7 +39,7 @@ const char *SENDCMPCT="sendcmpct";
 const char *CMPCTBLOCK="cmpctblock";
 const char *GETBLOCKTXN="getblocktxn";
 const char *BLOCKTXN="blocktxn";
-// Dash message types
+// Kanchan message types
 const char *LEGACYTXLOCKREQUEST="ix";
 const char *SPORK="spork";
 const char *GETSPORKS="getsporks";
@@ -103,7 +104,7 @@ const static std::string allNetMessageTypes[] = {
     NetMsgType::CMPCTBLOCK,
     NetMsgType::GETBLOCKTXN,
     NetMsgType::BLOCKTXN,
-    // Dash message types
+    // Kanchan message types
     // NOTE: do NOT include non-implmented here, we want them to be "Unknown command" in ProcessMessage()
     NetMsgType::LEGACYTXLOCKREQUEST,
     NetMsgType::SPORK,

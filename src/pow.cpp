@@ -13,7 +13,8 @@
 
 #include <math.h>
 
-unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Consensus::Params& params) {
+unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Consensus::Params& params)
+{
     const CBlockIndex *BlockLastSolved = pindexLast;
     const CBlockIndex *BlockReading = pindexLast;
     uint64_t PastBlocksMass = 0;
@@ -79,7 +80,8 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Conse
     return bnNew.GetCompact();
 }
 
-unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const Consensus::Params& params) {
+unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const Consensus::Params& params)
+{
     /* current difficulty formula  */
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
     int64_t nPastBlocks = 24;
@@ -235,6 +237,8 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
     bool fNegative;
     bool fOverflow;
     arith_uint256 bnTarget;
+
+    //LogPrintf("\n%s: blockhash %s\n", __func__, hash.ToString());
 
     bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
 

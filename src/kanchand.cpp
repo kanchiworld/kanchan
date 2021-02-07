@@ -26,21 +26,6 @@
 
 #include <stdio.h>
 
-/* Introduction text for doxygen: */
-
-/*! \mainpage Developer documentation
- *
- * \section intro_sec Introduction
- *
- * This is the developer documentation of the reference client for an experimental new digital currency called Dash (https://www.dash.org/),
- * which enables instant payments to anyone, anywhere in the world. Dash uses peer-to-peer technology to operate
- * with no central authority: managing transactions and issuing money are carried out collectively by the network.
- *
- * The software is a community-driven open source project, released under the MIT license.
- *
- * \section Navigation
- * Use the buttons <code>Namespaces</code>, <code>Classes</code> or <code>Files</code> at the top of the page to start navigating the code.
- */
 
 void WaitForShutdown(boost::thread_group* threadGroup)
 {
@@ -72,7 +57,7 @@ bool AppInit(int argc, char* argv[])
     //
     // Parameters
     //
-    // If Qt is used, parameters/kanchan.conf are parsed in qt/dash.cpp's main()
+    // If Qt is used, parameters/kanchan.conf are parsed in qt/kanchan.cpp's main()
     gArgs.ParseParameters(argc, argv);
 
     if (gArgs.IsArgSet("-printcrashinfo")) {
@@ -139,7 +124,7 @@ bool AppInit(int argc, char* argv[])
         {
             if (!IsSwitchChar(argv[i][0]))
             {
-                fprintf(stderr, "Error: Command line contains unexpected token '%s', see dashd -h for a list of options.\n", argv[i]);
+                fprintf(stderr, "Error: Command line contains unexpected token '%s', see kanchand -h for a list of options.\n", argv[i]);
                 exit(EXIT_FAILURE);
             }
         }
@@ -214,7 +199,7 @@ int main(int argc, char* argv[])
 
     SetupEnvironment();
 
-    // Connect dashd signal handlers
+    // Connect kanchand signal handlers
     noui_connect();
 
     return (AppInit(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE);

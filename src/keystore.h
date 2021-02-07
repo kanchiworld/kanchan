@@ -55,7 +55,7 @@ typedef std::set<CScript> WatchOnlySet;
 class CBasicKeyStore : public CKeyStore
 {
 protected:
-    KeyMap mapKeys;
+    KeyMap m_mapKeys;
     WatchKeyMap mapWatchKeys;
     ScriptMap mapScripts;
     WatchOnlySet setWatchOnly;
@@ -70,29 +70,33 @@ public:
         bool result;
         {
             LOCK(cs_KeyStore);
-            result = (mapKeys.count(address) > 0);
+            result = (m_mapKeys.count(address) > 0);
         }
         return result;
     }
+
+//  Gets the adresses of all the private keys in the store
     void GetKeys(std::set<CKeyID> &setAddress) const override
     {
         setAddress.clear();
         {
             LOCK(cs_KeyStore);
-            KeyMap::const_iterator mi = mapKeys.begin();
-            while (mi != mapKeys.end())
+            KeyMap::const_iterator mi = m_mapKeys.begin();
+            while (mi != m_mapKeys.end())
             {
                 setAddress.insert((*mi).first);
                 mi++;
             }
         }
     }
+
+//  Gets the private key
     bool GetKey(const CKeyID &address, CKey &keyOut) const override
     {
         {
             LOCK(cs_KeyStore);
-            KeyMap::const_iterator mi = mapKeys.find(address);
-            if (mi != mapKeys.end())
+            KeyMap::const_iterator mi = m_mapKeys.find(address);
+            if (mi != m_mapKeys.end())
             {
                 keyOut = mi->second;
                 return true;
@@ -100,6 +104,7 @@ public:
         }
         return false;
     }
+
     virtual bool AddCScript(const CScript& redeemScript) override;
     virtual bool HaveCScript(const CScriptID &hash) const override;
     virtual bool GetCScript(const CScriptID &hash, CScript& redeemScriptOut) const override;

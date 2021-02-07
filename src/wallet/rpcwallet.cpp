@@ -40,7 +40,7 @@ CWallet *GetWalletForJSONRPCRequest(const JSONRPCRequest& request)
     if (request.URI.substr(0, WALLET_ENDPOINT_BASE.size()) == WALLET_ENDPOINT_BASE) {
         // wallet endpoint was used
         std::string requestedWallet = urlDecode(request.URI.substr(WALLET_ENDPOINT_BASE.size()));
-        for (CWalletRef pwallet : ::vpwallets) {
+        for (CWallet *pwallet : ::vpwallets) {
             if (pwallet->GetName() == requestedWallet) {
                 return pwallet;
             }
@@ -539,22 +539,27 @@ UniValue listaddressgroupings(const JSONRPCRequest& request)
     LOCK2(cs_main, pwallet->cs_wallet);
 
     UniValue jsonGroupings(UniValue::VARR);
-    std::map<CTxDestination, CAmount> balances = pwallet->GetAddressBalances();
-    for (std::set<CTxDestination> grouping : pwallet->GetAddressGroupings()) {
+    std::map<CTxDestination, CAmount> balances; pwallet->GetAddressBalances(balances);
+    std::set< std::set<CTxDestination>* > addrGroupings; pwallet->GetAddressGroupings(addrGroupings);
+
+    for (const std::set<CTxDestination>* grouping : addrGroupings)
+    {
         UniValue jsonGrouping(UniValue::VARR);
-        for (CTxDestination address : grouping)
+        for (const CTxDestination& address : *grouping)
         {
             UniValue addressInfo(UniValue::VARR);
             addressInfo.push_back(CBitcoinAddress(address).ToString());
             addressInfo.push_back(ValueFromAmount(balances[address]));
             {
-                if (pwallet->mapAddressBook.find(CBitcoinAddress(address).Get()) != pwallet->mapAddressBook.end()) {
+                if (pwallet->mapAddressBook.find(CBitcoinAddress(address).Get()) != pwallet->mapAddressBook.end())
+                {
                     addressInfo.push_back(pwallet->mapAddressBook.find(CBitcoinAddress(address).Get())->second.name);
                 }
             }
             jsonGrouping.push_back(addressInfo);
         }
         jsonGroupings.push_back(jsonGrouping);
+        delete grouping;
     }
     return jsonGroupings;
 }
@@ -593,7 +598,7 @@ UniValue listaddressbalances(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount");
 
     UniValue jsonBalances(UniValue::VOBJ);
-    std::map<CTxDestination, CAmount> balances = pwallet->GetAddressBalances();
+    std::map<CTxDestination, CAmount> balances; pwallet->GetAddressBalances(balances);
     for (auto& balance : balances)
         if (balance.second >= nMinAmount)
             jsonBalances.push_back(Pair(CBitcoinAddress(balance.first).ToString(), ValueFromAmount(balance.second)));
@@ -2623,7 +2628,7 @@ UniValue listwallets(const JSONRPCRequest& request)
 
     UniValue obj(UniValue::VARR);
 
-    for (CWalletRef pwallet : vpwallets) {
+    for (CWallet *pwallet : vpwallets) {
 
         if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
             return NullUniValue;

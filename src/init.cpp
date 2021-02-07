@@ -223,7 +223,7 @@ void PrepareShutdown()
     /// for example if the data directory was found to be locked.
     /// Be sure that anything that writes files or flushes caches only does this if the respective
     /// module was initialized.
-    RenameThread("dash-shutoff");
+    RenameThread("kanchan-shutoff");
     mempool.AddTransactionsUpdated(1);
     StopHTTPRPC();
     StopREST();
@@ -242,7 +242,8 @@ void PrepareShutdown()
         privateSendClient.fPrivateSendRunning = false;
         privateSendClient.ResetPool();
     }
-    for (CWalletRef pwallet : vpwallets) {
+    for (CWallet* pwallet : vpwallets)
+    {
         pwallet->Flush(false);
     }
 #endif
@@ -318,7 +319,8 @@ void PrepareShutdown()
         evoDb = nullptr;
     }
 #ifdef ENABLE_WALLET
-    for (CWalletRef pwallet : vpwallets) {
+    for (CWallet* pwallet : vpwallets)
+    {
         pwallet->Flush(true);
     }
 #endif
@@ -373,7 +375,8 @@ void Shutdown()
    // Shutdown part 2: Stop TOR thread and delete wallet instance
     StopTorControl();
 #ifdef ENABLE_WALLET
-    for (CWalletRef pwallet : vpwallets) {
+    for (CWallet* pwallet : vpwallets)
+    {
         delete pwallet;
     }
     vpwallets.clear();
@@ -600,8 +603,8 @@ std::string HelpMessage(HelpMessageMode mode)
     }
     strUsage += HelpMessageOpt("-shrinkdebugfile", _("Shrink debug.log file on client startup (default: 1 when no -debug)"));
     AppendParamsHelpMessages(strUsage, showDebug);
-    strUsage += HelpMessageOpt("-litemode", strprintf(_("Disable all Dash specific functionality (Masternodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)"), 0));
-    strUsage += HelpMessageOpt("-sporkaddr=<dashaddress>", strprintf(_("Override spork address. Only useful for regtest and devnet. Using this on mainnet or testnet will ban you.")));
+    strUsage += HelpMessageOpt("-litemode", strprintf(_("Disable all Kanchan specific functionality (Masternodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)"), 0));
+    strUsage += HelpMessageOpt("-sporkaddr=<kanchanaddress>", strprintf(_("Override spork address. Only useful for regtest and devnet. Using this on mainnet or testnet will ban you.")));
     strUsage += HelpMessageOpt("-minsporkkeys=<n>", strprintf(_("Overrides minimum spork signers to change spork value. Only useful for regtest and devnet. Using this on mainnet or testnet will ban you.")));
 
     strUsage += HelpMessageGroup(_("Masternode options:"));
@@ -767,7 +770,7 @@ void CleanupBlockRevFiles()
 void ThreadImport(std::vector<fs::path> vImportFiles)
 {
     const CChainParams& chainparams = Params();
-    RenameThread("dash-loadblk");
+    RenameThread("kanchan-loadblk");
 
     {
     CImportingNow imp;
@@ -857,7 +860,8 @@ void ThreadImport(std::vector<fs::path> vImportFiles)
 
 #ifdef ENABLE_WALLET
     // we can't do this before DIP3 is fully initialized
-    for (CWalletRef pwallet : vpwallets) {
+    for (CWallet* pwallet : vpwallets)
+    {
         pwallet->AutoLockMasternodeCollaterals();
     }
 #endif
@@ -1730,19 +1734,21 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     fLiteMode = gArgs.GetBoolArg("-litemode", false);
     LogPrintf("fLiteMode %d\n", fLiteMode);
 
-    if(fLiteMode) {
-        InitWarning(_("You are starting in lite mode, most Kanchan-specific functionality is disabled."));
-    }
+    if(fLiteMode) InitWarning(_("You are starting in lite mode, most Kanchan-specific functionality is disabled."));
+    
 
     if((!fLiteMode && fTxIndex == false)
-       && chainparams.NetworkIDString() != CBaseChainParams::REGTEST) { // TODO remove this when pruning is fixed. See https://github.com/dashpay/dash/pull/1817 and https://github.com/dashpay/dash/pull/1743
+       && chainparams.NetworkIDString() != CBaseChainParams::REGTEST)
+    { // TODO remove this when pruning is fixed.
         return InitError(_("Transaction index can't be disabled in full mode. Either start with -litemode command line switch or enable transaction index."));
     }
 
-    if (!fLiteMode) {
+    if (!fLiteMode)
+    {
         uiInterface.InitMessage(_("Loading sporks cache..."));
         CFlatDB<CSporkManager> flatdb6("sporks.dat", "magicSporkCache");
-        if (!flatdb6.Load(sporkManager)) {
+        if (!flatdb6.Load(sporkManager))
+        {
             return InitError(_("Failed to load sporks cache from") + "\n" + (GetDataDir() / "sporks.dat").string());
         }
     }
@@ -2261,7 +2267,8 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     uiInterface.InitMessage(_("Done loading"));
 
 #ifdef ENABLE_WALLET
-    for (CWalletRef pwallet : vpwallets) {
+    for (CWallet* pwallet : vpwallets)
+    {
         pwallet->postInitProcess(scheduler);
     }
 #endif
