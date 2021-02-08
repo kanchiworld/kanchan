@@ -19,9 +19,9 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
-    unitlist.append(DASH);
-    unitlist.append(mDASH);
-    unitlist.append(uDASH);
+    unitlist.append(KANCHAN);
+    unitlist.append(mKANCHAN);
+    unitlist.append(uKANCHAN);
     unitlist.append(duffs);
     return unitlist;
 }
@@ -30,9 +30,9 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case DASH:
-    case mDASH:
-    case uDASH:
+    case KANCHAN:
+    case mKANCHAN:
+    case uKANCHAN:
     case duffs:
         return true;
     default:
@@ -46,9 +46,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case DASH: return QString("KANCHAN");
-            case mDASH: return QString("mKANCHAN");
-            case uDASH: return QString::fromUtf8("μKANCHAN");
+            case KANCHAN: return QString("KANCHAN");
+            case mKANCHAN: return QString("mKANCHAN");
+            case uKANCHAN: return QString::fromUtf8("μKANCHAN");
             case duffs: return QString("photons");
             default: return QString("???");
         }
@@ -57,9 +57,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case DASH: return QString("tKANCHAN");
-            case mDASH: return QString("mtKANCHAN");
-            case uDASH: return QString::fromUtf8("μtKANCHAN");
+            case KANCHAN: return QString("tKANCHAN");
+            case mKANCHAN: return QString("mtKANCHAN");
+            case uKANCHAN: return QString::fromUtf8("μtKANCHAN");
             case duffs: return QString("tphotons");
             default: return QString("???");
         }
@@ -72,9 +72,9 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case DASH: return QString("Kanchan");
-            case mDASH: return QString("Milli-Kanchan (1 / 1" THIN_SP_UTF8 "000)");
-            case uDASH: return QString("Micro-Kanchan (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case KANCHAN: return QString("Kanchan");
+            case mKANCHAN: return QString("Milli-Kanchan (1 / 1" THIN_SP_UTF8 "000)");
+            case uKANCHAN: return QString("Micro-Kanchan (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             case duffs: return QString("Ten Nano-Kanchan (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
@@ -83,9 +83,9 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case DASH: return QString("TestKanchan");
-            case mDASH: return QString("Milli-TestKanchan (1 / 1" THIN_SP_UTF8 "000)");
-            case uDASH: return QString("Micro-TestKanchan (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case KANCHAN: return QString("TestKanchan");
+            case mKANCHAN: return QString("Milli-TestKanchan (1 / 1" THIN_SP_UTF8 "000)");
+            case uKANCHAN: return QString("Micro-TestKanchan (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             case duffs: return QString("Ten Nano-TestKanchan (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
@@ -96,9 +96,9 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case DASH:  return 100000000;
-    case mDASH: return 100000;
-    case uDASH: return 100;
+    case KANCHAN:  return 100000000;
+    case mKANCHAN: return 100000;
+    case uKANCHAN: return 100;
     case duffs: return 1;
     default:   return 100000000;
     }
@@ -108,9 +108,9 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case DASH: return 8;
-    case mDASH: return 5;
-    case uDASH: return 2;
+    case KANCHAN: return 8;
+    case mKANCHAN: return 5;
+    case uKANCHAN: return 2;
     case duffs: return 0;
     default: return 0;
     }

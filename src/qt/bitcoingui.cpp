@@ -608,7 +608,7 @@ void BitcoinGUI::createToolBars()
         toolbar->addWidget(spacer);
 
         QLabel *logoLabel = new QLabel();
-        QPixmap logoPixmap(":/images/dash_logo_toolbar");
+        QPixmap logoPixmap(":/images/kanchan_logo_toolbar");
         logoLabel->setPixmap(logoPixmap);
         toolbar->addWidget(logoLabel);
 

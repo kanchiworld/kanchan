@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2015 The Bitcoin Core developers
-// Copyright (c) 2014-2020 The Dash Core developers
+// Copyright (c) 2014-2020 The Kanchan Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -53,9 +53,9 @@ const QString BITCOIN_IPC_PREFIX("kanchan:");
 const char* BIP70_MESSAGE_PAYMENTACK = "PaymentACK";
 const char* BIP70_MESSAGE_PAYMENTREQUEST = "PaymentRequest";
 // BIP71 payment protocol media types
-const char* BIP71_MIMETYPE_PAYMENT = "application/dash-payment";
-const char* BIP71_MIMETYPE_PAYMENTACK = "application/dash-paymentack";
-const char* BIP71_MIMETYPE_PAYMENTREQUEST = "application/dash-paymentrequest";
+const char* BIP71_MIMETYPE_PAYMENT = "application/kanchan-payment";
+const char* BIP71_MIMETYPE_PAYMENTACK = "application/kanchan-paymentack";
+const char* BIP71_MIMETYPE_PAYMENTREQUEST = "application/kanchan-paymentrequest";
 
 struct X509StoreDeleter {
       void operator()(X509_STORE* b) {
@@ -79,7 +79,7 @@ namespace // Anon namespace
 //
 static QString ipcServerName()
 {
-    QString name("DashQt");
+    QString name("KanchanQt");
 
     // Append a simple hash of the datadir
     // Note that GetDataDir(true) returns a different path
@@ -452,7 +452,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
             }
             else
                 Q_EMIT message(tr("URI handling"),
-                    tr("URI cannot be parsed! This can be caused by an invalid Dash address or malformed URI parameters."),
+                    tr("URI cannot be parsed! This can be caused by an invalid Kanchan address or malformed URI parameters."),
                     CClientUIInterface::ICON_WARNING);
 
             return;
@@ -564,7 +564,7 @@ bool PaymentServer::processPaymentRequest(const PaymentRequestPlus& request, Sen
             addresses.append(QString::fromStdString(CBitcoinAddress(dest).ToString()));
         }
         else if (!recipient.authenticatedMerchant.isEmpty()) {
-            // Unauthenticated payment requests to custom dash addresses are not supported
+            // Unauthenticated payment requests to custom kanchan addresses are not supported
             // (there is no good way to tell the user where they are paying in a way they'd
             // have a chance of understanding).
             Q_EMIT message(tr("Payment request rejected"),
@@ -573,7 +573,7 @@ bool PaymentServer::processPaymentRequest(const PaymentRequestPlus& request, Sen
             return false;
         }
 
-        // Dash amounts are stored as (optional) uint64 in the protobuf messages (see paymentrequest.proto),
+        // Kanchan amounts are stored as (optional) uint64 in the protobuf messages (see paymentrequest.proto),
         // but CAmount is defined as int64_t. Because of that we need to verify that amounts are in a valid range
         // and no overflow has happened.
         if (!verifyAmount(sendingTo.second)) {
