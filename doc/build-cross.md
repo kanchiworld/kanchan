@@ -29,7 +29,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=x86_64-apple-darwin11 -j4
 ```
 
-When building Dash Core, use
+When building Kanchan Core, use
 
 ```bash
 $ ./configure --prefix=`pwd`/depends/x86_64-apple-darwin11
@@ -80,7 +80,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=x86_64-w64-mingw32 -j4
 ```
 
-When building Dash Core, use
+When building Kanchan Core, use
 
 ```bash
 $ ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
