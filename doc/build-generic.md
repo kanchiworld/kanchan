@@ -1,12 +1,7 @@
 GENERIC BUILD NOTES
 ====================
-Some notes on how to build Dash Core based on the [depends](../depends/README.md) build system.
+Some notes on how to build Kanchan Core based on the [depends](../depends/README.md) build system.
 
-Note on old build instructions
-------------------------------
-In the past, the build documentation contained instructions on how to build Dash with system-wide installed dependencies
-like BerkeleyDB 4.8, boost and Qt. Building this way is considered deprecated and only building with the `depends` prefix
-is supported today.
 
 Required build tools and environment
 ------------------------------------
