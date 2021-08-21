@@ -1,8 +1,8 @@
-Cross-compiliation of Dash Core
+Cross-compiliation of Kanchan Core
 ===============================
 
-Dash Core can be cross-compiled on Linux to all other supported host systems. This is done by changing
-the `HOST` parameter when building the dependencies and then specifying another `--prefix` directory when building Dash.
+Kanchan Core can be cross-compiled on Linux to all other supported host systems. This is done by changing
+the `HOST` parameter when building the dependencies and then specifying another `--prefix` directory when building Kanchan.
 
 The following instructions are only tested on Debian Stretch and Ubuntu Bionic.
 
@@ -103,7 +103,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=arm-linux-gnueabihf -j4
 ```
 
-When building Dash Core, use
+When building Kanchan Core, use
 
 ```bash
 $ ./configure --prefix=`pwd`/depends/arm-linux-gnueabihf
